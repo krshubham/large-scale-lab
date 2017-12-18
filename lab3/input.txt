@@ -1,0 +1,4 @@
+hello world this is Kumar Shubham
+My name is Kumar Shubham
+This is a simple input file in which I am going to
+find which character occurs the most number of times
