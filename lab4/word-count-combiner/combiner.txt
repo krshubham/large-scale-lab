@@ -1,0 +1,8 @@
+In this lab we learn about the concept of combiner function in Hadoop.
+
+Question 1) Write a word count program using the combiner function
+
+Ques 2) write a map reduce program with salary details greater than 1 lakh and display the total number of records satisfying this condition. The output in HDFS should be 
+
+							country name, years of experience, salary
+ 
