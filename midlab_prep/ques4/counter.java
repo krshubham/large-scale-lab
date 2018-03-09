@@ -7,30 +7,38 @@ import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
-public class splitable{
+
+
+public class counter{
+	public enum ct {
+		thirtycnt
+	};
 	public static class Map extends Mapper<LongWritable,Text,Text,IntWritable>{
-		public void map(LongWritable key,Text value,Context context)throws IOException,InterruptedException{
-			String[] line=value.toString().split(",");
-			int i=Integer.parseInt(line[1]);
-			context.write(new Text(line[3]), new IntWritable(i));
+		public void map(LongWritable key, Text value, Context context)
+throws IOException, InterruptedException {
+			String line = value.toString();
+			String[] elements=line.split(",");
+			int birthyear = Integer.parseInt(elements[3]);
+			int age = 2018 - birthyear;
+			Text name = new Text(elements[0]);
+			if(age > 30){
+				context.getCounter(ct.thirtycnt).increment(1);
+				context.write(name,new IntWritable(birthyear));
+			}
 		}
 	}
-	
 	public static void main(String[] args) throws Exception{
 		Configuration conf=new Configuration();
-		conf.set("mapred.max.split.size","10000");
-		Job job=new Job(conf,"splitable");
-		job.setJarByClass(splitable.class);
+		Job job = new Job(conf,"counter");
+		job.setJarByClass(counter.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		job.setMapperClass(Map.class);
-		job.setInputFormatClass(TextInputFormat.class);
-		job.setOutputFormatClass(TextOutputFormat.class);
+		job.setNumReduceTasks(0);
 		FileInputFormat.addInputPath(job,new Path(args[0]));
 		FileOutputFormat.setOutputPath(job,new Path(args[1]));
 		job.waitForCompletion(true);
-
+		Counters cn = job.getCounters();
+		System.out.println(cn.findCounter(ct.thirtycnt).getValue());
 	}
-
 }
-

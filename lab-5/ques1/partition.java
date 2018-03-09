@@ -7,12 +7,11 @@ import org.apache.hadoop.mapreduce.*;
 import org.apache.hadoop.mapreduce.Reducer.Context;
 import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
-public class customP{
+public class partition{
 	public static class Map extends Mapper<LongWritable,Text,Text,IntWritable>{
-		public void map(LongWritable key,Text value,Context context)throws IOException,InterruptedException{
-		
+		public void map(LongWritable key,Text value,Context context)throws IOException,InterruptedException{	
 			String[] line=value.toString().split(",");
-			int i=Integer.parseInt(line[1]);
+			int i = Integer.parseInt(line[1]);
 			context.write(new Text(line[3]), new IntWritable(i));
 		}
 	}
@@ -35,8 +34,8 @@ public class customP{
 	}
 	public static void main(String[] args) throws Exception{
 		Configuration conf=new Configuration();
-		Job job=new Job(conf,"customP");
-		job.setJarByClass(customP.class);
+		Job job=new Job(conf,"partition");
+		job.setJarByClass(partition.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 		job.setMapperClass(Map.class);

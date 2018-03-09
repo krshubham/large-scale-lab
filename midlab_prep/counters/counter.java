@@ -9,7 +9,7 @@ import org.apache.hadoop.mapreduce.lib.input.*;
 import org.apache.hadoop.mapreduce.lib.output.*;
 
 
-public class countNew{
+public class counter{
 	public enum ct {
 		cnt,nt
 	};
@@ -32,8 +32,8 @@ public class countNew{
 
 	public static void main(String[] args) throws Exception{
 		Configuration conf = new Configuration();
-		Job job = new Job(conf,"countNew");
-		job.setJarByClass(countNew.class);
+		Job job = new Job(conf,"counter");
+		job.setJarByClass(counter.class);
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(Text.class);
 		job.setMapperClass(Map.class);

@@ -1,5 +1,3 @@
-package com.wordCount;
-
 import java.io.IOException;
 import java.util.StringTokenizer;
 
